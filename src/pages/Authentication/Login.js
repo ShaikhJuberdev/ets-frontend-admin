@@ -11,8 +11,8 @@ const Login = () => {
   const navigate = useNavigate();
 
 
-  const defaultUsername = "pts@pts.com";
-  const defaultPassword = "EY128Ak4vx6vPfmbU4uO6QM6";
+  const defaultUsername = "Admin@gmail.com";
+  const defaultPassword = "Admin@123";
 
 
 

@@ -163,7 +163,7 @@ const SidebarContent = props => {
                 <span className="sidebar-headline">{props.t("Dashboard")}</span>
               </Link>
             </li>
-{/* 
+            {/* 
             <li>
               <Link to="/rmmanagement" className="waves-effect d-flex align-items-center gap-3">
                 <img src={rmIcon} alt="RM Icon" width="20" height="18" />
@@ -179,7 +179,7 @@ const SidebarContent = props => {
               </Link>
             </li>
 
-            
+
 
 
 
@@ -193,7 +193,7 @@ const SidebarContent = props => {
             </li> */}
 
 
-               <li>
+            <li>
               <Link to="/alertlist" className="waves-effect d-flex align-items-center gap-3">
                 <img src={reportsIcon} alt="Reports Icon" width="20" height="18" />
                 <span className="sidebar-headline">{props.t("Alert List History")}</span>
@@ -212,18 +212,27 @@ const SidebarContent = props => {
               </ul> */}
 
 
+            <li>
+              <Link to="/broadcast" className="waves-effect d-flex align-items-center gap-3">
+                {/* <img src={reportsIcon} alt="Reports Icon" width="20" height="18" /> */}
+                <span className="sidebar-headline">{props.t("Broadcast")}</span>
+              </Link>
+            </li>
+
+
+
             {/* <li className="menu-title">{props.t("Components")}</li> */}
             <li>
-              <Link to="/#" className="waves-effect d-flex align-items-center gap-3">
-                <img src={supportIcon} alt="Support Icon" width="20" height="18" />
+              <Link to="/report" className="waves-effect d-flex align-items-center gap-3">
+                {/* <img src={supportIcon} alt="Support Icon" width="20" height="18" /> */}
                 <span className="sidebar-headline">{props.t("Reports")}</span>
               </Link>
             </li>
-          
+
 
             <li>
-              <Link to="/#" className="waves-effect d-flex align-items-center gap-3">
-                <img src={supportIcon} alt="Support Icon" width="20" height="18" />
+              <Link to="/support" className="waves-effect d-flex align-items-center gap-3">
+                {/* <img src={supportIcon} alt="Support Icon" width="20" height="18" /> */}
                 <span className="sidebar-headline">{props.t("Support")}</span>
               </Link>
             </li>

@@ -46,7 +46,8 @@ const Dashboard = props => {
 
 
   const username = "+919370813281";
-  const password = "uPi5/27LMFe0qDgrPbR6Z3dV";
+  // const password = "uPi5/27LMFe0qDgrPbR6Z3dV";
+  const password = "pyaRzhl9Z3eKCJIjxxdipjjw"
   const auth = btoa(`${username}:${password}`);
   useEffect(() => {
     const fetchUsers = async () => {

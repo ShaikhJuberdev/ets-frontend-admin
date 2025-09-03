@@ -55,34 +55,6 @@ import ChartjsChart from "../pages/Charts/ChartjsChart";
 import EChart from "../pages/Charts/EChart";
 import SparklineChart from "../pages/Charts/SparklineChart";
 
-// Maps
-// import MapsGoogle from "../pages/Maps/MapsGoogle";
-// import MapsVector from "../pages/Maps/MapsVector";
-// import MapsLeaflet from "../pages/Maps/MapsLeaflet";
-
-//Icons
-// import IconDripicons from "../pages/Icons/IconDripicons";
-// import IconMaterialdesign from "../pages/Icons/IconMaterialdesign";
-// import TypiconsIcon from "../pages/Icons/IconTypicons";
-// import IconIon from "../pages/Icons/IconIon";
-// import ThemifyIcon from "../pages/Icons/IconThemify";
-// import IconFontawesome from "../pages/Icons/IconFontawesome";
-
-//Tables
-// import BasicTables from "../pages/Tables/BasicTables";
-// import DatatableTables from "../pages/Tables/DatatableTables";
-// import ResponsiveTables from "../pages/Tables/ResponsiveTables";
-
-// Forms
-// import FormElements from "../pages/Forms/FormElements";
-// import FormAdvanced from "../pages/Forms/FormAdvanced";
-// import FormEditors from "../pages/Forms/FormEditors";
-// import FormValidations from "../pages/Forms/FormValidations";
-// import FormMask from "../pages/Forms/FormMask";
-// import FormRepeater from "../pages/Forms/FormRepeater";
-// import FormUpload from "../pages/Forms/FormUpload";
-// import FormWizard from "../pages/Forms/FormWizard";
-
 //Ui
 import UiAlert from "../pages/Ui/UiAlert";
 import UiButtons from "../pages/Ui/UiButtons";
@@ -135,13 +107,18 @@ import Geolocation from "pages/Geolocation/GeoLocation";
 
 //   Alert List
 import AlertList from "pages/Alertlist/AlertList";
+import BroadcastMessage from "pages/broadcast/BroadcastMessage";
+import Report from "pages/reports/Report";
+import Support from "pages/support/Support";
 
 
 const userRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
-    { path: "/geolocation", component: <Geolocation/> },
-
-    { path: "/alertlist", component: <AlertList /> },
+  { path: "/geolocation", component: <Geolocation/> },
+  { path: "/alertlist", component: <AlertList /> },
+  { path: "/broadcast", component: <BroadcastMessage /> },
+  { path: "/report", component: <Report /> },
+  { path: "/support", component: <Support/> },
 
 
 
