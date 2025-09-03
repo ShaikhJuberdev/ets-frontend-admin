@@ -19,13 +19,14 @@ import logosmImg from "../../assets/images/SVG/ETS_logo.png";
 import logosmimg from "../../assets/images/SVG/symbol.svg";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { withTranslation } from "react-i18next";
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
 const Header = props => {
   const location = useLocation();
   const navigate = useNavigate()
   const [pageTitle, setPageTitle] = useState("Admin Dashboard");
 
-    useEffect(() => {
+  useEffect(() => {
     // You can expand this logic for more routes
     if (location.pathname.includes("/alertlist")) {
       setPageTitle("Alert List");
@@ -66,7 +67,7 @@ const Header = props => {
   }
 
   const handleLogout = () => {
-     navigate('/login');
+    navigate('/login');
     sessionStorage.clear()
   }
   return (
@@ -84,12 +85,13 @@ const Header = props => {
                 </span>
               </Link>
             </div>
-           
+
             {/* <h1 className="header-name">{pageTitle}</h1> */}
             <div className="d-flex align-items-center">
-   <h1 className="header-name">ETS Management System</h1>
+              <KeyboardDoubleArrowLeftIcon onClick={tToggle} className="sidebar-left-menu-icon"/>
+              <h1 className="header-name">Admin Dashboard</h1>
             </div>
-          
+
 
           </div>
 
@@ -107,13 +109,14 @@ const Header = props => {
               className="dropdown d-inline-block"
             >
 
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D" style={{widows:'35px', height:"35px", borderRadius:'50px', marginRight:'12px'}}/>
+              <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D" style={{ widows: '35px', height: "35px", borderRadius: '50px', marginRight: '12px' }} />
               <button
                 type="button"
                 className="btn header-item noti-icon right-bar-toggle waves-effect"
               >
-                < LogoutIcon className="mdi mdi-cog-outline" style={{color:"#fff"
-                }} onClick={handleLogout}/>
+                < LogoutIcon className="mdi mdi-cog-outline" style={{
+                  color: "#fff"
+                }} onClick={handleLogout} />
               </button>
             </div>
           </div>

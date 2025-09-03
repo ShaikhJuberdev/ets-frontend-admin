@@ -10,13 +10,17 @@ import withRouter from "components/Common/withRouter";
 import { Link, useLocation } from "react-router-dom";
 
 //
-import dashboardLogo from "../../assets/images/SVG/white_dashboard_icon.svg";
+import dashboardLogo from "../../assets/images/Dashboard.svg";
 import rmIcon from "../../assets/images/SVG/RM.svg";
 import rmIcon1 from "../../assets/images/SVG/group.svg";
-import reportsIcon from "../../assets/images/SVG/white_alert.svg";
-import supportIcon from "../../assets/images/SVG/Support.svg";
+import reportsIcon from "../../assets/images/alert.svg";
+// import supportIcon from "../../assets/images/SVG/Support.svg";
 // import staffIcon from "../../assets/images/SVG/feedback.svg";
-import staffIcon from "../../assets/images/SVG/white_geo_location.svg";
+import staffIcon from "../../assets/images/Geolocation Identification.svg";
+import broadCastIcon from "../../assets/images/Broadcast Management.svg"
+import supportIcon from "../../assets/images/Support 2.svg"
+import reportICon from "../../assets/images/report.svg"
+
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -214,7 +218,7 @@ const SidebarContent = props => {
 
             <li>
               <Link to="/broadcast" className="waves-effect d-flex align-items-center gap-3">
-                {/* <img src={reportsIcon} alt="Reports Icon" width="20" height="18" /> */}
+                <img src={broadCastIcon} alt="Reports Icon" width="20" height="18" />
                 <span className="sidebar-headline">{props.t("Broadcast")}</span>
               </Link>
             </li>
@@ -224,7 +228,7 @@ const SidebarContent = props => {
             {/* <li className="menu-title">{props.t("Components")}</li> */}
             <li>
               <Link to="/report" className="waves-effect d-flex align-items-center gap-3">
-                {/* <img src={supportIcon} alt="Support Icon" width="20" height="18" /> */}
+                <img src={reportICon} alt="Support Icon" width="20" height="18" />
                 <span className="sidebar-headline">{props.t("Reports")}</span>
               </Link>
             </li>
@@ -232,7 +236,7 @@ const SidebarContent = props => {
 
             <li>
               <Link to="/support" className="waves-effect d-flex align-items-center gap-3">
-                {/* <img src={supportIcon} alt="Support Icon" width="20" height="18" /> */}
+                <img src={supportIcon} alt="Support Icon" width="20" height="18" />
                 <span className="sidebar-headline">{props.t("Support")}</span>
               </Link>
             </li>

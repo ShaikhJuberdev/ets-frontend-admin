@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TablePagination, 
+  TablePagination,
   CircularProgress,
   Alert,
 } from "@mui/material";
@@ -44,7 +44,7 @@ const AlertList = () => {
         },
       });
 
-     
+
 
       const data = await response.json();
       setAlerts(data.content || []);
@@ -62,8 +62,21 @@ const AlertList = () => {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); 
+    setPage(0);
   };
+
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  }
 
   return (
     <>
@@ -77,6 +90,7 @@ const AlertList = () => {
                 <TableRow>
                   <TableCell>Alert ID</TableCell>
                   <TableCell>Location</TableCell>
+                  <TableCell>Lat and Lan</TableCell>
                   <TableCell>Alert Type</TableCell>
                   <TableCell>Description</TableCell>
                   <TableCell>Timestamp</TableCell>
@@ -101,12 +115,14 @@ const AlertList = () => {
                   </TableRow>
                 ) : (
                   alerts.map((alert) => (
-                    <TableRow key={alert.alertId } className="alert_table_row"> 
+                    <TableRow key={alert.alertId} className="alert_table_row">
                       <TableCell >{alert.alertId}</TableCell>
                       <TableCell>{alert.location}</TableCell>
+                      <TableCell>{alert.lat} / {alert.lon}</TableCell>
+
                       <TableCell>{alert.alerttype}</TableCell>
                       <TableCell>{alert.description}</TableCell>
-                      <TableCell>{alert.timestamp}</TableCell>
+                      <TableCell>{formatTimestamp(alert.timestamp)}</TableCell>
                       {/* <TableCell>{alert.camerdid}</TableCell> */}
                       {/* <TableCell>{alert.subtype}</TableCell> */}
                       {/* <TableCell>{alert.base64image === null && "Not Found!"}</TableCell>
