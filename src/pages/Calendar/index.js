@@ -220,7 +220,7 @@ const Calender = props => {
       <div className="page-content">
         <Container fluid={true}>
           {/* Render Breadcrumb */}
-          <Breadcrumbs title="Veltrix" breadcrumbItem="Calendar" />
+          {/* <Breadcrumbs title="Veltrix" breadcrumbItem="Calendar" /> */}
           <Row>
             <Col className="col-12">
               <Row>

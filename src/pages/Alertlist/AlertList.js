@@ -12,8 +12,14 @@ import {
   Alert,
 } from "@mui/material";
 
+
+
 const API_HOST = process.env.REACT_APP_API_HOST;
 const API_PORT_8082 = process.env.REACT_APP_API_PORT_8082;
+
+ const username = process.env.REACT_APP_USERNAME;
+  const password = process.env.REACT_APP_PASSWORD;
+
 
 const AlertList = () => {
   const [alerts, setAlerts] = useState([]);
@@ -23,8 +29,9 @@ const AlertList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const username = "pts@pts.com";
-  const password = "EY128Ak4vx6vPfmbU4uO6QM6";
+
+
+ 
   const auth = btoa(`${username}:${password}`);
 
   useEffect(() => {
@@ -47,14 +54,19 @@ const AlertList = () => {
 
 
       const data = await response.json();
-      setAlerts(data.content || []);
+      setAlerts(data || []);
       setTotalElements(data.page?.totalElements || 0);
+
+    
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
+
+  console.log(alerts)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -88,16 +100,13 @@ const AlertList = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Alert ID</TableCell>
+                  {/* <TableCell>Alert ID</TableCell> */}
                   <TableCell>Location</TableCell>
                   <TableCell>Lat and Lan</TableCell>
                   <TableCell>Alert Type</TableCell>
                   <TableCell>Description</TableCell>
-                  <TableCell>Timestamp</TableCell>
-                  {/* <TableCell>Camera ID</TableCell> */}
-                  {/* <TableCell>Subtype</TableCell> */}
-                  {/* <TableCell>Picture</TableCell> */}
-                  {/* <TableCell>Filename</TableCell> */}
+                  <TableCell>Alert At On</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -116,13 +125,13 @@ const AlertList = () => {
                 ) : (
                   alerts.map((alert) => (
                     <TableRow key={alert.alertId} className="alert_table_row">
-                      <TableCell >{alert.alertId}</TableCell>
+                      {/* <TableCell >{alert.alertId}</TableCell> */}
                       <TableCell>{alert.location}</TableCell>
                       <TableCell>{alert.lat} / {alert.lon}</TableCell>
 
                       <TableCell>{alert.alerttype}</TableCell>
                       <TableCell>{alert.description}</TableCell>
-                      <TableCell>{formatTimestamp(alert.timestamp)}</TableCell>
+                      <TableCell>{alert.timestamp}</TableCell>
                       {/* <TableCell>{alert.camerdid}</TableCell> */}
                       {/* <TableCell>{alert.subtype}</TableCell> */}
                       {/* <TableCell>{alert.base64image === null && "Not Found!"}</TableCell>

@@ -478,7 +478,7 @@
 
  body[data-sidebar=dark] .vertical-menu {
    background-color: #fff !important;
-
+   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
  }
 
  body[data-sidebar=dark] .navbar-brand-box {
@@ -512,17 +512,17 @@
 
  .header-name {
    color: #fff;
-   font-size: 28px;
+   font-size: 22px;
    font-weight: 600;
    margin-left: 22px;
    margin-bottom: 0px !important;
  }
 
 
- body[data-sidebar=dark].vertical-collpsed .vertical-menu #sidebar-menu > ul > li:hover > a {
-    background-color: #B4EFF7 !important ;
-    color: #000 !important;
-    border-radius: 0px 50px 50px 0px  !important;
+ body[data-sidebar=dark].vertical-collpsed .vertical-menu #sidebar-menu>ul>li:hover>a {
+   background-color: #B4EFF7 !important;
+   color: #000 !important;
+   border-radius: 0px 50px 50px 0px !important;
 
  }
 
@@ -607,7 +607,7 @@
 
  .dashboard-card-view-btn {
    background-color: #B4EFF7;
-   border: none;
+   border: 1px solid #e1e1e1;
    border-radius: 6px;
    padding: 8px 24px;
    color: #000;
@@ -616,7 +616,7 @@
 
  .dashboard-card-view-btn2 {
    background-color: #fff;
-   border: 1px solid black;
+   border: 1px solid #656668;
    border-radius: 6px;
    color: #000;
    font-weight: 600;
@@ -633,13 +633,13 @@
 
 
  .dashboard_card_image {
-   width: 35px;
-   height: 40px;
+   width: 28px;
+   height: 24px;
  }
 
  .dashboard_card_image_seconds {
-   width: 30px;
-   height: 35px;
+   width: 28px;
+   height: 24px;
  }
 
 
@@ -647,6 +647,11 @@
    font-size: 18px;
    font-weight: 500;
    color: #000;
+ }
+
+ .dashboard_card_image_second3 {
+   width: 28px;
+   height: 24px;
  }
 
 
@@ -769,21 +774,14 @@
 
 
 
-
- /* .button-reschedulde{
-  background-color: red;
-  color: black;
-   font-size: 12px;
-   border: none;
-   width:80px ;
-   height:30px ;
-   border-radius: 4px;
-} */
-
  .activity-card {
    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
    border-radius: 8px;
-   height: 580px;
+   height: 560px;
+ }
+
+ .dashboard_progress_container {
+   /* height: 540px; */
  }
 
 
@@ -839,7 +837,7 @@
 
  .progress-bar {
    height: 100%;
-   background-color: #ef5350;
+   background-color: #FD8489;
    border-radius: 10px;
  }
 
@@ -1651,38 +1649,95 @@
 
 
 
+ .send_broadcast_message_box::-webkit-scrollbar {
+   width: 6px;
+ }
+
+
+ .send_broadcast_message_box::-webkit-scrollbar-track {
+   background: #f1f1f1;
+   border-radius: 4px;
+ }
+
+
+ .send_broadcast_message_box::-webkit-scrollbar-thumb {
+   background: #B4EFF7;
+   border-radius: 4px;
+ }
+
+ .send_broadcast_message_box::-webkit-scrollbar-thumb:hover {
+   background: #B4EFF7;
+ }
+
+ .send_broadcast_message_box {
+   scrollbar-width: thin;
+   scrollbar-color: #B4EFF7 #f1f1f1;
+ }
+
  .send_broadcast_btn {
    width: 100%;
    /* background-color: #2f217d; */
-   background-color: #5897fc;
+   background-color: #6590d6;
    border-radius: 6px;
-   color: white;
+   color: #000;
    border: none;
-
+   font-weight: 600;
  }
 
  .send_broadcast_btn:hover {
-   background-color: #1d1065;
+   background-color: #B4EFF7;
+   color: #000;
  }
+
+ .send_broadcast_message_textarea_div {
+   background-color: #B4EFF7;
+   padding: 4px;
+   border-radius: 6px;
+   margin-bottom: 6px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
 
  .send_brodcast_heading {
    font-size: 16px;
-   text-align: center;
    font-weight: 500;
+   color: #000;
+   text-align: center;
+   margin-bottom: 0px;
+   margin-left: 12px;
 
  }
 
  .send_brodcast_textarea {
    border-radius: 6px;
-   color: #fff;
-   background-color: #000;
+   color: #000;
+   border: none;
+   outline: none;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
  }
+
+ .send_braodcast_selected_mobile_list {
+   font-size: 12px;
+   white-space: nowrap;
+   color: #000;
+   font-weight: 600 !important;
+ }
+
+
 
  .single_message_input {
-   color: #fff;
-   background-color: #000;
+
+   color: #000;
+   border: none !important;
+   outline: none !important;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+   border-radius: 6px;
+
  }
+
 
  .send_message_broadcast_numberslist {
    display: flex;
@@ -1836,9 +1891,9 @@
 
 
  .delete-btn {
-   background-color: #FF421C;
+   background-color: #fd8489;
    color: #000;
-   border: none;
+   border: 1px solid #656668;
    border-radius: 6px;
    padding: 6px 12px;
    width: 100px;
@@ -1846,7 +1901,7 @@
 
  body[data-sidebar=dark] .mm-active .active {
    background-color: #B4EFF7 !important;
-   border-radius: 0px 50px 50px 0px;
+   /* border-radius: 0px 50px 50px 0px; */
  }
 
 
@@ -1943,7 +1998,7 @@
  }
 
  .sidebar-left-menu-icon {
-   font-size: 40px !important;
+   font-size: 32px !important;
    color: #fff;
  }
 
@@ -1954,36 +2009,68 @@
  }
 
 
- .broadcast_header_box{
-  background-color: #edf1fc ;
-  padding: 12px;
-  border-bottom: 1px solid silver;
+ .broadcast_header_box {
+   background-color: #edf1fc;
+   padding: 12px;
+   border-bottom: 1px solid silver;
  }
 
- .broadcast_page_input{
-    border-radius: 12px;
-    border: 1px solid silver;
-    padding: 6px 12px;
-    outline: none;
-    width: 600px;
+ .broadcast_page_input {
+   border-radius: 12px;
+   border: 1px solid silver;
+   padding: 6px 12px;
+   outline: none;
+   width: 600px;
  }
 
- .broadcast_page_selectall{
-background-color: #B4EFF7;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 24px;
-    color: #000;
-    font-weight: 600;
-    margin-left: 6px;
+ .broadcast_page_selectall {
+   background-color: #B4EFF7;
+   border: none;
+   border-radius: 6px;
+   padding: 8px 24px;
+   color: #000;
+   font-weight: 600;
+   margin-left: 6px;
  }
 
- .broadcast_page_sendbtn{
-background-color: #B4EFF7;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 24px;
-    color: #000;
-    font-weight: 600;
-    margin-left: 6px;
+ .broadcast_page_sendbtn {
+   background-color: #B4EFF7;
+   border: none;
+   border-radius: 6px;
+   padding: 8px 24px;
+   color: #000;
+   font-weight: 600;
+   margin-left: 6px;
+ }
+
+ .dashboard_table_user {
+   margin-bottom: 0px !important;
+ }
+
+ .dashboard_table_user>thead>tr>th {
+   font-weight: 600;
+   color: #000;
+ }
+
+ .progress-ext {
+   font-weight: 500;
+ }
+
+ .legend-color .ios {
+   font-weight: 700 !important;
+   font-size: 14px !important;
+ }
+
+ .dashboard_table_user>tbody>tr>td {
+   border-bottom: none !important;
+ }
+
+ .no-data-found-text {
+   font-size: 14px;
+   margin: 0px !important;
+ }
+
+
+ .Toastify__toast-container {
+   z-index: 999999 !important;
  }

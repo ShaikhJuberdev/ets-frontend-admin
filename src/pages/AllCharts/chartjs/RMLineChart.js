@@ -44,11 +44,11 @@ const RMLineChart = () => {
         <Line type="linear" dataKey="RM4" stroke="#e53935" strokeWidth={2} dot={{ r: 4 }} />
         <Line type="linear" dataKey="RM5" stroke="#ff4081" strokeWidth={2} dot={{ r: 4 }} /> */}
 
-        <Line type="linear" dataKey="Fire" stroke="#ff0000" strokeWidth={2} dot={{ r: 4 }} />
-        <Line type="linear" dataKey="Gunshot" stroke="#800080" strokeWidth={2} dot={{ r: 4 }} />
-        <Line type="linear" dataKey="Smoke" stroke="#808080" strokeWidth={2} dot={{ r: 4 }} />
-        <Line type="linear" dataKey="BombDetect" stroke="#ffa500" strokeWidth={2} dot={{ r: 4 }} />
-        <Line type="linear" dataKey="CameraTampering" stroke="#00ced1" strokeWidth={2} dot={{ r: 4 }} />
+        <Line type="linear" dataKey="Fire" stroke="#ff0000" strokeWidth={1} dot={{ r: 4 }} />
+        <Line type="linear" dataKey="Gunshot" stroke="#800080" strokeWidth={1} dot={{ r: 4 }} />
+        <Line type="linear" dataKey="Smoke" stroke="#808080" strokeWidth={1} dot={{ r: 4 }} />
+        <Line type="linear" dataKey="BombDetect" stroke="#ffa500" strokeWidth={1} dot={{ r: 4 }} />
+        <Line type="linear" dataKey="CameraTampering" stroke="#00ced1" strokeWidth={1} dot={{ r: 4 }} />
       </LineChart>
     </ResponsiveContainer>
   );

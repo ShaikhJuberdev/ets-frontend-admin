@@ -4,7 +4,11 @@ import L from "leaflet";
 import { toast } from "react-toastify";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
-const API_PORT_8085 = process.env.REACT_APP_API_PORT_8085;
+const API_PORT_8080 = process.env.REACT_APP_API_PORT_8080;
+
+
+ const username = process.env.REACT_APP_USERNAME;
+  const password = process.env.REACT_APP_PASSWORD;
 
 // Reuse same icon
 const userIcon = new L.Icon({
@@ -24,7 +28,7 @@ export const UserMarker = ({ p }) => {
 
     // credentials (same as MapComponent)
     const encodedCredentials = btoa(
-      `${"pts@pts.com"}:${"EY128Ak4vx6vPfmbU4uO6QM6"}`
+      `${username}:${password}`
     );
 
     const payload = {
@@ -36,7 +40,7 @@ export const UserMarker = ({ p }) => {
 
     try {
       const response = await fetch(
-        `${API_HOST}:${API_PORT_8085}/v1/messages/sendmessage`,
+        `${API_HOST}:${API_PORT_8080}/v1/messages/sendmessage`,
         {
           method: "POST",
           headers: {
@@ -89,9 +93,10 @@ export const UserMarker = ({ p }) => {
               fontSize: "12px",
               marginTop: "5px",
               marginBottom: "6px",
-              boxSizing: "border-box",
-              border: "1px solid black",
-              borderRadius: "6px",
+              
+              // boxSizing: "border-box",
+              border: "none",
+              // borderRadius: "6px",
             }}
           />
 

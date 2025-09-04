@@ -160,90 +160,46 @@ const SidebarContent = props => {
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            {/* <li className="menu-title">{props.t("Main")} </li> */}
             <li>
               <Link to="/dashboard" className="waves-effect d-flex align-items-center gap-3">
-                <img src={dashboardLogo} alt="Dashboard Icon" width="20" height="18" />
+                <img src={dashboardLogo} alt="Dashboard Icon" width="26" height="24" />
                 <span className="sidebar-headline">{props.t("Dashboard")}</span>
               </Link>
             </li>
-            {/* 
-            <li>
-              <Link to="/rmmanagement" className="waves-effect d-flex align-items-center gap-3">
-                <img src={rmIcon} alt="RM Icon" width="20" height="18" />
-                <span className="sidebar-headline">{props.t("RM Management")}</span>
-              </Link>
-            </li> */}
-
 
             <li>
               <Link to="/geolocation" className=" waves-effect  d-flex align-items-center gap-3">
-                <img src={staffIcon} alt="Staff Icon" width="20" height="18" />
+                <img src={staffIcon} alt="Staff Icon" width="28" height="26" />
                 <span className="sidebar-headline">{props.t("Geolocation Identifier")}</span>
               </Link>
             </li>
 
-
-
-
-
-
-
-            {/* <li >
-              <Link to="/creategroup" className={`waves-effect d-flex align-items-center gap-3 `}>
-                <img src={rmIcon1} alt="Group Icon" width="20" height="18" />
-                <span className="sidebar-headline">{props.t("Group Management")}</span>
-              </Link>
-            </li> */}
-
-
             <li>
               <Link to="/alertlist" className="waves-effect d-flex align-items-center gap-3">
-                <img src={reportsIcon} alt="Reports Icon" width="20" height="18" />
+                <img src={reportsIcon} alt="Reports Icon" width="28" height="26" />
                 <span className="sidebar-headline">{props.t("Alert List History")}</span>
               </Link>
             </li>
-            {/* <ul className="sub-menu" aria-expanded="false">
-                <li>
-                  <Link to="/email-inbox">{props.t("Inbox")}</Link>
-                </li>
-                <li>
-                  <Link to="/email-read">{props.t("Email Read")} </Link>
-                </li>
-                <li>
-                  <Link to="/email-compose">{props.t("Email Compose")} </Link>
-                </li>
-              </ul> */}
-
-
             <li>
               <Link to="/broadcast" className="waves-effect d-flex align-items-center gap-3">
-                <img src={broadCastIcon} alt="Reports Icon" width="20" height="18" />
+                <img src={broadCastIcon} alt="Reports Icon" width="28" height="26" />
                 <span className="sidebar-headline">{props.t("Broadcast")}</span>
               </Link>
             </li>
 
-
-
             {/* <li className="menu-title">{props.t("Components")}</li> */}
             <li>
               <Link to="/report" className="waves-effect d-flex align-items-center gap-3">
-                <img src={reportICon} alt="Support Icon" width="20" height="18" />
+                <img src={reportICon} alt="Support Icon" width="28" height="26" />
                 <span className="sidebar-headline">{props.t("Reports")}</span>
               </Link>
             </li>
-
-
             <li>
               <Link to="/support" className="waves-effect d-flex align-items-center gap-3">
-                <img src={supportIcon} alt="Support Icon" width="20" height="18" />
+                <img src={supportIcon} alt="Support Icon" width="28" height="26" />
                 <span className="sidebar-headline">{props.t("Support")}</span>
               </Link>
             </li>
-
-
-
-
 
           </ul>
         </div>
