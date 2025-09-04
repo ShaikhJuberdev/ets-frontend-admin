@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
     Table,
@@ -9,40 +10,43 @@ import {
     Paper,
     TablePagination,
     CircularProgress,
-    Alert,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
+
+const API_HOST = process.env.REACT_APP_API_HOST;
+const API_PORT_8080 = process.env.REACT_APP_API_PORT_8080;
+const sendUsername = process.env.REACT_APP_USERNAME;
+const sendPassword = process.env.REACT_APP_PASSWORD;
 
 const BroadcastMessage = () => {
-
-
-
     const [users, setUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [broadcastMessage, setBroadcastMessage] = useState("");
 
-    const API_HOST = process.env.REACT_APP_API_HOST;
-    const API_PORT_8082 = process.env.REACT_APP_API_PORT_8082;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [totalElements, setTotalElements] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
-    const username = "+919370813281";
-    // const password = "uPi5/27LMFe0qDgrPbR6Z3dV";
-    const password = "KokVc8aV9a/qvv3HMd8Lzzba"
-    const auth = btoa(`${username}:${password}`);
+
+
+    const sendAuth = btoa(`${sendUsername}:${sendPassword}`);
+
 
     useEffect(() => {
         const fetchUsers = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(
-                    "http://192.168.2.179:8080/v1/accounts/listofuser",
+                    `${API_HOST}:${API_PORT_8080}/v1/accounts/listofuser`,
                     {
                         method: "GET",
                         headers: {
                             Accept: "application/json",
-                            Authorization: `Basic ${auth}`,
+                            Authorization: `Basic ${sendAuth}`,
                         },
                     }
                 );
@@ -51,15 +55,35 @@ const BroadcastMessage = () => {
                 }
 
                 const data = await response.json();
-                // console.log('data', data)
-                setUsers(data)
+                setUsers(data);
+                setTotalElements(data.length);
             } catch (error) {
                 console.error("Error fetching users:", error);
+                toast.error("Failed to fetch users");
+            } finally {
+                setLoading(false);
             }
         };
-        fetchUsers()
-    }, []);
+        fetchUsers();
+    }, [sendAuth]);
 
+
+    const handleSelectAll = (event) => {
+        if (event.target.checked) {
+            setSelectedUsers(users.map((u) => u.id));
+        } else {
+            setSelectedUsers([]);
+        }
+    };
+
+    const handleSelectUser = (id) => {
+        setSelectedUsers((prev) =>
+            prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]
+        );
+    };
+
+    const isAllSelected =
+        users.length > 0 && selectedUsers.length === users.length;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -69,43 +93,114 @@ const BroadcastMessage = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const handleSendBroadcast = async () => {
+        if (selectedUsers.length === 0) {
+            toast.warning("Please select at least one user.");
+            return;
+        }
+        if (!broadcastMessage.trim()) {
+            toast.warning("Please enter a broadcast message.");
+            return;
+        }
+
+        const payload = {
+            usernames: selectedUsers,
+            title: "alert",
+            body: broadcastMessage,
+            type: 7,
+            filtertype: "",
+        };
+
+        try {
+            const response = await fetch(
+                `${API_HOST}:${API_PORT_8080}/v1/messages/sendmessagesmany`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Basic ${sendAuth}`,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to send broadcast: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("Broadcast response:", result);
+            toast.success("Broadcast sent successfully!");
+            setBroadcastMessage("");
+            setSelectedUsers([]);
+        } catch (error) {
+            console.error("Error sending broadcast:", error);
+            toast.error("Failed to send broadcast");
+        }
+    };
+
     return (
         <>
             <div className="page-content">
-                {/* {error && <Alert severity="error">{error}</Alert>} */}
-
                 <Paper>
 
                     <div className="d-flex align-items-end justify-content-end broadcast_header_box">
-                        <input placeholder="Enter a Broadcast message..." className="broadcast_page_input"/>
-                        {/* <button className="broadcast_page_selectall">
-                            Select All
-                        </button> */}
-                        <button className="broadcast_page_sendbtn">
+                        <input
+                            placeholder="Enter a Broadcast message..."
+                            className="broadcast_page_input"
+                            value={broadcastMessage}
+                            onChange={(e) => setBroadcastMessage(e.target.value)}
+                        />
+                        <button
+                            className="broadcast_page_sendbtn"
+                            onClick={handleSendBroadcast}
+                        >
                             Send Broadcast
                         </button>
                     </div>
+
+
                     <TableContainer className="alert_table_container">
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Select All</TableCell>
+
+                                    <TableCell>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                            <span>Select All</span>
+                                            <input
+                                                type="checkbox"
+                                                checked={isAllSelected}
+                                                onChange={handleSelectAll}
+                                                style={{ width: "20px", height: "20px" }}
+                                                ref={(el) => {
+                                                    if (el) {
+                                                        el.indeterminate =
+                                                            selectedUsers.length > 0 && selectedUsers.length < users.length;
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </TableCell>
+
                                     <TableCell>Phone No.</TableCell>
                                     <TableCell>Device Type</TableCell>
                                     <TableCell>Created At</TableCell>
-                                    {/* <TableCell>Alert Type</TableCell> */}
-                                    <TableCell>Action</TableCell>
-                                    {/* <TableCell>Timestamp</TableCell> */}
-                                    {/* <TableCell>Camera ID</TableCell> */}
-                                    {/* <TableCell>Subtype</TableCell> */}
-                                    {/* <TableCell>Picture</TableCell> */}
-                                    {/* <TableCell>Filename</TableCell> */}
+                                    <TableCell>Last Seen</TableCell>
+
+
                                 </TableRow>
                             </TableHead>
+
                             <TableBody>
                                 {loading ? (
                                     <TableRow>
-                                        <TableCell colSpan={9} align="center" style={{ height: "200px" }}>
+                                        <TableCell
+                                            colSpan={9}
+                                            align="center"
+                                            style={{ height: "200px" }}
+                                        >
                                             <CircularProgress />
                                         </TableCell>
                                     </TableRow>
@@ -118,27 +213,25 @@ const BroadcastMessage = () => {
                                 ) : (
                                     users.map((user) => (
                                         <TableRow key={user.id} className="alert_table_row">
-                                            <TableCell ><input type="checkbox"/></TableCell>
-                                            <TableCell >{user.id}</TableCell>
+                                            <TableCell>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedUsers.includes(user.id)}
+                                                    onChange={() => handleSelectUser(user.id)}
+                                                />
+                                            </TableCell>
+                                            <TableCell>{user.id}</TableCell>
                                             <TableCell>{user.type}</TableCell>
                                             <TableCell>{user.created}</TableCell>
-                                            {/* <TableCell>{user.lat} / {user.lon}</TableCell>
+                                            <TableCell>{user.lastseen}</TableCell>
 
-                                            <TableCell>{alert.alerttype}</TableCell>
-                                            <TableCell>{alert.description}</TableCell>
-                                            <TableCell>{alert.timestamp}</TableCell> */}
-                                            {/* <TableCell>{alert.camerdid}</TableCell> */}
-                                            {/* <TableCell>{alert.subtype}</TableCell> */}
-                                            {/* <TableCell>{alert.base64image === null && "Not Found!"}</TableCell>
-                      <TableCell>{alert.filename}</TableCell> */}
                                         </TableRow>
                                     ))
                                 )}
                             </TableBody>
-
-
                         </Table>
                     </TableContainer>
+
 
                     {users.length > 0 && (
                         <TablePagination
@@ -153,11 +246,15 @@ const BroadcastMessage = () => {
                             className="alert_table_pegination"
                         />
                     )}
-
                 </Paper>
             </div>
-        </>
-    )
-}
 
-export default BroadcastMessage
+
+            <ToastContainer position="top-right" autoClose={3000} />
+        </>
+    );
+};
+
+export default BroadcastMessage;
+
+

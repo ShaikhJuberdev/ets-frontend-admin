@@ -7,11 +7,12 @@ import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-draw";
 import { DrawControl } from "./DrawControl";
 import { ControlButtons } from "./ControlButtons";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { UserMarker } from "./UserMarker";
-
+import "react-toastify/dist/ReactToastify.css";
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import StreetviewIcon from '@mui/icons-material/Streetview';
+import broadCastIcon from "../../assets/images/Broadcast Management.svg"
 
 // Add custom CSS for tooltip
 const tooltipStyle = `
@@ -39,6 +40,11 @@ document.head.appendChild(styleSheet);
 const API_HOST = process.env.REACT_APP_API_HOST;
 const API_PORT_8085 = process.env.REACT_APP_API_PORT_8085;
 const API_PORT_8082 = process.env.REACT_APP_API_PORT_8082;
+const API_PORT_8080 = process.env.REACT_APP_API_PORT_8080;
+
+const username = process.env.REACT_APP_USERNAME;
+const password = process.env.REACT_APP_PASSWORD;
+
 
 const userIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9204/9204416.png",
@@ -55,11 +61,11 @@ export default function MapComponent() {
   const [showBroadcastBox, setShowBroadcastBox] = useState(false);
   const [mapType, setMapType] = useState("street");
   const [searchTerm, setSearchTerm] = useState("");
-  const username = "pts@pts.com";
-  const password = "EY128Ak4vx6vPfmbU4uO6QM6";
+  // const username = "pts@pts.com";
+  // const password = "EY128Ak4vx6vPfmbU4uO6QM6";
   const auth = btoa(`${username}:${password}`);
 
- 
+
 
   const handleCheckboxChange = (num) => {
     setSelectedNumbers((prev) =>
@@ -68,16 +74,16 @@ export default function MapComponent() {
   };
 
   const handleSelectAll = () => {
-    const filteredUsers = generatedPoints?.filter(user => 
+    const filteredUsers = generatedPoints?.filter(user =>
       (user.phone || user.mobile || user.msisdn || user.username || user.email)
         ?.toLowerCase()
         .includes(searchTerm?.toLowerCase())
     ) || [];
-    
-    const allNumbers = filteredUsers.map(user => 
+
+    const allNumbers = filteredUsers.map(user =>
       user.phone || user.mobile || user.msisdn || user.username || user.email
     );
-    
+
     if (selectedNumbers.length === allNumbers.length) {
       setSelectedNumbers([]);
     } else {
@@ -85,7 +91,7 @@ export default function MapComponent() {
     }
   };
 
- 
+
 
   const handleCircleDrawn = async (center, radius) => {
     // generateRandomPoints(center, radius);
@@ -111,7 +117,7 @@ export default function MapComponent() {
 
       const data = await response.json();
 
-      
+
       setGeneratedPoints(data || []);
       setShowBroadcastBox(true);
       console.log("Users fetched:", data);
@@ -149,7 +155,7 @@ export default function MapComponent() {
     };
 
     try {
-      const response = await fetch(`${API_HOST}:${API_PORT_8085}/v1/messages/sendmessagesmany`, {
+      const response = await fetch(`${API_HOST}:${API_PORT_8080}/v1/messages/sendmessagesmany`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,7 +187,7 @@ export default function MapComponent() {
         marginTop: 100,
         position: "relative",
         borderRadius: "16px",
-        zIndex: 0,
+
       }}
     >
       {/* Broadcast Box */}
@@ -201,25 +207,30 @@ export default function MapComponent() {
 
           }}
         >
-          <h1 className="send_brodcast_heading">Send Broadcast Message</h1>
-          <textarea
-            rows={2}
-            cols={30}
-            className="send_brodcast_textarea"
-            placeholder="Enter broadcast message..."
-            value={broadcastMsg}
-            onChange={(e) => setBroadcastMsg(e.target.value)}
-            style={{ fontSize: "14px", marginBottom: "5px" }}
-          />
-          <br />
+          <div className="d-flex align-items-center  mb-2">
+            <img src={broadCastIcon} alt="broadc" style={{ width: "28px", height: '24px' }} />
+            <h1 className="send_brodcast_heading">Send Broadcast Message</h1>
+          </div>
+          <div className="send_broadcast_message_textarea_div">
+            <textarea
+              rows={2}
+              cols={30}
+              className="send_brodcast_textarea"
+              placeholder="Enter broadcast message..."
+              value={broadcastMsg}
+              onChange={(e) => setBroadcastMsg(e.target.value)}
+              style={{ fontSize: "14px" }}
+            />
+          </div>
+
 
           <div style={{ marginBottom: "8px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-              <b>
+              {/* <b>
                 <span>Select Users:</span>
-              </b>
-              {generatedPoints && generatedPoints.length > 0 && (
-                <button 
+              </b> */}
+              {/* {generatedPoints && generatedPoints.length > 0 && (
+                <button
                   onClick={handleSelectAll}
                   style={{
                     fontSize: "11px",
@@ -231,15 +242,58 @@ export default function MapComponent() {
                     cursor: "pointer"
                   }}
                 >
-                  {selectedNumbers.length === (generatedPoints?.filter(user => 
+                  {selectedNumbers.length === (generatedPoints?.filter(user =>
                     (user.phone || user.mobile || user.msisdn || user.username || user.email)
                       ?.toLowerCase()
                       .includes(searchTerm?.toLowerCase())
                   )?.length) ? "Deselect All" : "Select All"}
                 </button>
+              )} */}
+              {generatedPoints && generatedPoints.length > 0 && (
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                    gap: "6px",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedNumbers.length ===
+                      generatedPoints.filter((user) =>
+                        (user.phone ||
+                          user.mobile ||
+                          user.msisdn ||
+                          user.username ||
+                          user.email)
+                          ?.toLowerCase()
+                          .includes(searchTerm?.toLowerCase())
+                      ).length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                  <span>
+                    {selectedNumbers.length ===
+                      generatedPoints.filter((user) =>
+                        (user.phone ||
+                          user.mobile ||
+                          user.msisdn ||
+                          user.username ||
+                          user.email)
+                          ?.toLowerCase()
+                          .includes(searchTerm?.toLowerCase())
+                      ).length
+                      ? "Deselect All"
+                      : "Select All"}
+                  </span>
+                </label>
               )}
+
             </div>
-            
+
             <input
               type="text"
               placeholder="Search numbers..."
@@ -254,14 +308,14 @@ export default function MapComponent() {
                 borderRadius: "3px"
               }}
             />
-            
-            <div style={{ 
-              maxHeight: "120px", 
+
+            <div style={{
+              maxHeight: "120px",
               overflowY: "auto",
               border: "1px solid #eee",
               borderRadius: "4px",
               padding: "4px"
-            }}>
+            }} className="send_broadcast_message_box">
               {(!generatedPoints || generatedPoints.length === 0) ? (
                 <div style={{
                   textAlign: "center",
@@ -272,20 +326,20 @@ export default function MapComponent() {
                   No users found in this area
                 </div>
               ) : (
-                <div style={{ 
-                  display: "grid", 
-                  gridTemplateColumns: "1fr 1fr", 
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
                   gap: "2px",
                   fontSize: "10px"
                 }}>
                   {generatedPoints
-                    ?.filter(user => 
+                    ?.filter(user =>
                       (user.phone || user.mobile || user.msisdn || user.username || user.email)
                         ?.toLowerCase()
                         .includes(searchTerm?.toLowerCase())
                     )
                     ?.map((user, idx) => (
-                      <label 
+                      <label
                         key={idx}
                         style={{
                           display: "flex",
@@ -313,7 +367,7 @@ export default function MapComponent() {
                           }
                           style={{ marginRight: "4px", transform: "scale(0.8)" }}
                         />
-                        <span style={{ fontSize: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <span className="send_braodcast_selected_mobile_list">
                           {user.phone || user.mobile || user.msisdn || user.username || user.email}
                         </span>
                       </label>
@@ -455,7 +509,7 @@ export default function MapComponent() {
 
 
 
-
+      <ToastContainer position="top-right" autoClose={3000}  />
 
     </div>
   );
