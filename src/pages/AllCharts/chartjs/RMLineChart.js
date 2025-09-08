@@ -28,7 +28,7 @@ const data = [
 ];
 
 
-// RMLineChart Component    Linear for straight line and monotype for curved
+
 const RMLineChart = () => {
   return (
     <ResponsiveContainer width="100%" height={320}>

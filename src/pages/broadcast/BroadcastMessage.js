@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from "react";
 import {
     Table,
@@ -15,7 +16,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-
 const API_HOST = process.env.REACT_APP_API_HOST;
 const API_PORT_8080 = process.env.REACT_APP_API_PORT_8080;
 const sendUsername = process.env.REACT_APP_USERNAME;
@@ -24,10 +24,12 @@ const sendPassword = process.env.REACT_APP_PASSWORD;
 const BroadcastMessage = () => {
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
-    const [broadcastMessage, setBroadcastMessage] = useState("");
+    const [broadcastName, setBroadcastName] = useState("");
+    const [broadcastDescription, setBroadcastDescription] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [totalElements, setTotalElements] = useState(0);
     const [loading, setLoading] = useState(false);
 
@@ -99,15 +101,19 @@ const BroadcastMessage = () => {
             toast.warning("Please select at least one user.");
             return;
         }
-        if (!broadcastMessage.trim()) {
-            toast.warning("Please enter a broadcast message.");
+        if (!broadcastName.trim()) {
+            toast.warning("Please enter a broadcast name.");
+            return;
+        }
+        if (!broadcastDescription.trim()) {
+            toast.warning("Please enter a broadcast description.");
             return;
         }
 
         const payload = {
             usernames: selectedUsers,
-            title: "alert",
-            body: broadcastMessage,
+            title: broadcastName,
+            body: broadcastDescription,
             type: 7,
             filtertype: "",
         };
@@ -132,7 +138,8 @@ const BroadcastMessage = () => {
             const result = await response.json();
             console.log("Broadcast response:", result);
             toast.success("Broadcast sent successfully!");
-            setBroadcastMessage("");
+            setBroadcastName("");
+            setBroadcastDescription("");
             setSelectedUsers([]);
         } catch (error) {
             console.error("Error sending broadcast:", error);
@@ -140,115 +147,155 @@ const BroadcastMessage = () => {
         }
     };
 
+    const filteredUsers = users.filter(user => 
+        user.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.type.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+
     return (
         <>
-            <div className="page-content">
-                <Paper>
+            <div className="broadcast-page-container">
+                <h2 className="broadcast-title">New Broadcast</h2>
+                <div className="broadcast-main-content">
+                        
+                        <div className="broadcast-message-section">
+                            <h3 className="section-title">What message do you want to send?</h3>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Broadcast Name:</label>
+                                <input
+                                    type="text"
+                                    className="broadcast-name-input"
+                                    placeholder="Enter broadcast name"
+                                    value={broadcastName}
+                                    onChange={(e) => setBroadcastName(e.target.value)}
+                                />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Broadcast Description</label>
+                                <textarea
+                                    className="broadcast-description-input"
+                                    placeholder="Enter broadcast description"
+                                    rows="4"
+                                    value={broadcastDescription}
+                                    onChange={(e) => setBroadcastDescription(e.target.value)}
+                                />
+                            </div>
+                        </div>
 
-                    <div className="d-flex align-items-end justify-content-end broadcast_header_box">
-                        <input
-                            placeholder="Enter a Broadcast message..."
-                            className="broadcast_page_input"
-                            value={broadcastMessage}
-                            onChange={(e) => setBroadcastMessage(e.target.value)}
-                        />
-                        <button
-                            className="broadcast_page_sendbtn"
-                            onClick={handleSendBroadcast}
-                        >
-                            Send Broadcast
-                        </button>
-                    </div>
-
-
-                    <TableContainer className="alert_table_container">
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-
-                                    <TableCell>
-                                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                            <span>Select All</span>
-                                            <input
-                                                type="checkbox"
-                                                checked={isAllSelected}
-                                                onChange={handleSelectAll}
-                                                style={{ width: "20px", height: "20px" }}
-                                                ref={(el) => {
-                                                    if (el) {
-                                                        el.indeterminate =
-                                                            selectedUsers.length > 0 && selectedUsers.length < users.length;
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                    </TableCell>
-
-                                    <TableCell>Phone No.</TableCell>
-                                    <TableCell>Device Type</TableCell>
-                                    <TableCell>Created At</TableCell>
-                                    <TableCell>Last Seen</TableCell>
-
-
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {loading ? (
-                                    <TableRow>
-                                        <TableCell
-                                            colSpan={9}
-                                            align="center"
-                                            style={{ height: "200px" }}
-                                        >
-                                            <CircularProgress />
-                                        </TableCell>
-                                    </TableRow>
-                                ) : users.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell colSpan={9} align="center">
-                                            No Alerts Found
-                                        </TableCell>
-                                    </TableRow>
-                                ) : (
-                                    users.map((user) => (
-                                        <TableRow key={user.id} className="alert_table_row">
+                       
+                        <div className="broadcast-contacts-section">
+                            <h3 className="section-title">Who do you want to send it to?</h3>
+                            
+                            <div className="contacts-header">
+                                <span className="contacts-prompt">Select Contact below </span>
+                            </div>
+                            
+                            <div className="search-container">
+                                <div className="search-input-wrapper">
+                                    <input
+                                        type="text"
+                                        className="search-input"
+                                        placeholder="Search contacts..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                    <span className="search-icon">🔍</span>
+                                </div>
+                            </div>
+                            
+                            <div className="selected-contacts-info">
+                                <span className="selected-count">Selected: {selectedUsers.length} contact{selectedUsers.length !== 1 ? 's' : ''}</span>
+                            </div>
+                            
+                            <TableContainer className="contacts-table-container">
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
                                             <TableCell>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedUsers.includes(user.id)}
-                                                    onChange={() => handleSelectUser(user.id)}
-                                                />
+                                                <div className="select-all-container">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isAllSelected}
+                                                        onChange={handleSelectAll}
+                                                        className="select-all-checkbox"
+                                                        ref={(el) => {
+                                                            if (el) {
+                                                                el.indeterminate =
+                                                                    selectedUsers.length > 0 && selectedUsers.length < filteredUsers.length;
+                                                            }
+                                                        }}
+                                                    />
+                                                </div>
                                             </TableCell>
-                                            <TableCell>{user.id}</TableCell>
-                                            <TableCell>{user.type}</TableCell>
-                                            <TableCell>{user.created}</TableCell>
-                                            <TableCell>{user.lastseen}</TableCell>
-
+                                            <TableCell className="table-header">Phone</TableCell>
+                                            <TableCell className="table-header">Device Type</TableCell>
+                                            <TableCell className="table-header">Created at</TableCell>
+                                            <TableCell className="table-header">Last Seen</TableCell>
                                         </TableRow>
-                                    ))
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                    </TableHead>
+                                    <TableBody>
+                                        {loading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={5} align="center" className="loading-cell">
+                                                    <CircularProgress />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : filteredUsers.length === 0 ? (
+                                            <TableRow>
+                                                <TableCell colSpan={5} align="center" className="no-data-cell">
+                                                    No contacts found
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                            filteredUsers
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((user) => (
+                                                <TableRow key={user.id} className="contact-table-row">
+                                                    <TableCell>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedUsers.includes(user.id)}
+                                                            onChange={() => handleSelectUser(user.id)}
+                                                            className="contact-checkbox"
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell className="contact-phone">{user.id}</TableCell>
+                                                    <TableCell className="contact-device">{user.type}</TableCell>
+                                                    <TableCell className="contact-created">{user.created}</TableCell>
+                                                    <TableCell className="contact-lastseen">{user.lastseen}</TableCell>
+                                                </TableRow>
+                                            ))
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            
+                            {filteredUsers.length > 0 && (
+                                <TablePagination
+                                    component="div"
+                                    count={filteredUsers.length}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    rowsPerPage={rowsPerPage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    rowsPerPageOptions={[5, 10, 25]}
+                                    labelRowsPerPage="Rows per page:"
+                                    className="contacts-pagination"
+                                />
+                            )}
+                        </div>
 
-
-                    {users.length > 0 && (
-                        <TablePagination
-                            component="div"
-                            count={totalElements}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            rowsPerPage={rowsPerPage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            rowsPerPageOptions={[]}
-                            labelRowsPerPage=""
-                            className="alert_table_pegination"
-                        />
-                    )}
-                </Paper>
-            </div>
-
+                        
+                        <div className="broadcast-actions">
+                            <button className="send-broadcast-btn" onClick={handleSendBroadcast}>
+                                Send Broadcast
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
             <ToastContainer position="top-right" autoClose={3000} />
         </>
@@ -256,5 +303,3 @@ const BroadcastMessage = () => {
 };
 
 export default BroadcastMessage;
-
-

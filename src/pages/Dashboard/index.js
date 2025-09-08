@@ -433,11 +433,11 @@ const Dashboard = props => {
                           <tr>
                             <td colSpan="4" className="text-center">
                               <div className="d-flex flex-column align-items-center justify-content-center py-4">
-                                <img
+                                {/* <img
                                   src="/images/noData.png"
                                   alt="No Data"
                                   style={{ maxWidth: "150px" }}
-                                />
+                                /> */}
                                 <h4 className="mt-3 no-data-found-text">
                                   No Users Found!
                                 </h4>
