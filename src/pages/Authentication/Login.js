@@ -123,8 +123,8 @@ const Login = () => {
 
             <button
               type="submit"
-              className="btn w-100"
-              style={{ backgroundColor: "#888", color: "white" }}
+              className="btn w-100 login-btn"
+             
             >
               Login
             </button>

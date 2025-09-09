@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import logo from "../../assets/images/picture/add.svg";
+import clipIcon from "../../assets/images/picture/file_upload.svg";
 
 const Support = () => {
     const [formData, setFormData] = useState({
@@ -11,6 +13,8 @@ const Support = () => {
         ccTo: []
     });
     const [attachedFiles, setAttachedFiles] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [emailInput, setEmailInput] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,13 +30,25 @@ const Support = () => {
     };
 
     const handleAddCC = () => {
-        const email = prompt('Enter email address:');
-        if (email && email.includes('@')) {
+        setIsModalOpen(true);
+    };
+
+    const handleModalSubmit = () => {
+        if (emailInput && emailInput.includes('@')) {
             setFormData(prev => ({
                 ...prev,
-                ccTo: [...prev.ccTo, email]
+                ccTo: [...prev.ccTo, emailInput]
             }));
+            setEmailInput('');
+            setIsModalOpen(false);
+        } else {
+            toast.warning("Please enter a valid email address");
         }
+    };
+
+    const handleModalCancel = () => {
+        setEmailInput('');
+        setIsModalOpen(false);
     };
 
     const handleSubmit = (e) => {
@@ -59,10 +75,9 @@ const Support = () => {
     return (
         <>
             <div className="support-page-container">
-                {/* <h2 className="support-title">New Request</h2> */}
                 <div className="support-main-content">
                     <h3 className="support-section-title">What problem are you facing?</h3>
-                    
+
                     <form onSubmit={handleSubmit}>
                         <div className="support-form-group">
                             <label className="support-form-label">Category</label>
@@ -116,7 +131,9 @@ const Support = () => {
                                     id="file-upload"
                                 />
                                 <label htmlFor="file-upload" className="support-file-label">
-                                    <span className="support-file-icon">📎</span>
+                                    <span className="support-file-icon">
+                                        <img src={clipIcon} alt="clip icon" style={{ width: "20px", height: "20px" }} />
+                                    </span>
                                     <span className="support-file-text">Click to upload files or drag and drop</span>
                                 </label>
                                 {attachedFiles.length > 0 && (
@@ -147,8 +164,13 @@ const Support = () => {
                                         onClick={handleAddCC}
                                         className="support-cc-add-btn"
                                     >
-                                        <span className="support-cc-plus">+</span>
-                                        <span className="support-cc-text">Add</span>
+                                        <span className="support-cc-plus">
+                                            <img
+                                                src={logo}
+                                                alt="logo"
+                                                style={{ width: "20px", height: "20px" }}
+                                            />
+                                        </span>
                                     </button>
                                     {formData.ccTo.length > 0 && (
                                         <div className="support-cc-list">
@@ -200,6 +222,36 @@ const Support = () => {
                 </div>
             </div>
 
+         {isModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h3 className="modal-title">Add CC Email</h3>
+      <input
+        type="email"
+        value={emailInput}
+        onChange={(e) => setEmailInput(e.target.value)}
+        className="modal-input"
+        placeholder="Enter email address"
+      />
+      <div className="modal-buttons">
+        <button
+          type="button"
+          onClick={handleModalCancel}
+          className="modal-cancel-btn"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleModalSubmit}
+          className="modal-add-btn"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+)}
             <ToastContainer position="top-right" autoClose={3000} />
         </>
     );

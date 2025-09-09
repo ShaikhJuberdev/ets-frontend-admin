@@ -61,8 +61,7 @@ export default function MapComponent() {
   const [showBroadcastBox, setShowBroadcastBox] = useState(false);
   const [mapType, setMapType] = useState("street");
   const [searchTerm, setSearchTerm] = useState("");
-  // const username = "pts@pts.com";
-  // const password = "EY128Ak4vx6vPfmbU4uO6QM6";
+  
   const auth = btoa(`${username}:${password}`);
 
 
@@ -226,29 +225,7 @@ export default function MapComponent() {
 
           <div style={{ marginBottom: "8px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-              {/* <b>
-                <span>Select Users:</span>
-              </b> */}
-              {/* {generatedPoints && generatedPoints.length > 0 && (
-                <button
-                  onClick={handleSelectAll}
-                  style={{
-                    fontSize: "11px",
-                    padding: "2px 6px",
-                    backgroundColor: "#5897fc",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "3px",
-                    cursor: "pointer"
-                  }}
-                >
-                  {selectedNumbers.length === (generatedPoints?.filter(user =>
-                    (user.phone || user.mobile || user.msisdn || user.username || user.email)
-                      ?.toLowerCase()
-                      .includes(searchTerm?.toLowerCase())
-                  )?.length) ? "Deselect All" : "Select All"}
-                </button>
-              )} */}
+
               {generatedPoints && generatedPoints.length > 0 && (
                 <label
                   style={{
@@ -380,7 +357,7 @@ export default function MapComponent() {
 
           <button
             onClick={handleBroadcast}
-            className="send_broadcast_btn btn btn-success"
+            className="send_broadcast_btn btn btn-success "
           >
             Send Broadcast
           </button>
@@ -409,6 +386,7 @@ export default function MapComponent() {
             gap: "8px",
           }}
         >
+         
           <button
             onClick={() => setMapType("street")}
             style={{
@@ -416,16 +394,13 @@ export default function MapComponent() {
               height: "36px",
               borderRadius: "50%",
               border: "none",
-              background: mapType === "street" ? "#5897fc" : "#fff",
-              color: mapType === "street" ? "#fff" : "#000",
+              background: mapType === "street" ? "#b4eff7" : "#fff",
               cursor: "pointer",
               boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-              fontSize: "10px",
-              fontWeight: "bold",
             }}
             title="Street Map"
           >
-            < StreetviewIcon fontSize="small" />
+            <StreetviewIcon fontSize="small" style={{ color: "black" }} />
           </button>
 
           <button
@@ -435,17 +410,15 @@ export default function MapComponent() {
               height: "36px",
               borderRadius: "50%",
               border: "none",
-              background: mapType === "satellite" ? "#5897fc" : "#fff",
-              color: mapType === "satellite" ? "#fff" : "#000",
+              background: mapType === "satellite" ? "#b4eff7" : "#fff",
               cursor: "pointer",
               boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-              fontSize: "10px",
-              fontWeight: "bold",
             }}
             title="Satellite View"
           >
-            <SatelliteAltIcon fontSize="small" />
+            <SatelliteAltIcon fontSize="small" style={{ color: "black" }} />
           </button>
+
         </div>
       </div>
 
@@ -509,7 +482,7 @@ export default function MapComponent() {
 
 
 
-      <ToastContainer position="top-right" autoClose={3000}  />
+      <ToastContainer position="top-right" autoClose={3000} />
 
     </div>
   );

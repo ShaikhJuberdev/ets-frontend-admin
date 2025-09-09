@@ -54,6 +54,7 @@ const LineChart = () => {
         borderColor: "#01b9d1",
         backgroundColor: "rgba(60, 76, 207, 0.1)",
         tension: 0,
+        
       },
       {
         label: "Messages Opened",
