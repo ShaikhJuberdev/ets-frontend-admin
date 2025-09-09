@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SearchIcon from "../../assets/images/picture/search.svg";
 
 
 const API_HOST = process.env.REACT_APP_API_HOST;
@@ -155,6 +156,7 @@ const BroadcastMessage = () => {
 
     return (
         <>
+        <div className="page-content">
             <div className="broadcast-page-container">
                 <h2 className="broadcast-title">New Broadcast</h2>
                 <div className="broadcast-main-content">
@@ -176,7 +178,7 @@ const BroadcastMessage = () => {
                             <div className="form-group">
                                 <label className="form-label">Broadcast Description</label>
                                 <textarea
-                                    className="broadcast-description-input"
+                                    className="broadcast-name-input"
                                     placeholder="Enter broadcast description"
                                     rows="4"
                                     value={broadcastDescription}
@@ -197,21 +199,23 @@ const BroadcastMessage = () => {
                                 <div className="search-input-wrapper">
                                     <input
                                         type="text"
-                                        className="search-input"
+                                        className="broadcast-name-input"
                                         placeholder="Search contacts..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
-                                    <span className="search-icon">🔍</span>
+                                    <img src={SearchIcon} alt="Search" className="search-icon" />
+
                                 </div>
                             </div>
                             
                             <div className="selected-contacts-info">
-                                <span className="selected-count">Selected: {selectedUsers.length} contact{selectedUsers.length !== 1 ? 's' : ''}</span>
+<span style={{fontWeight:600}}>Selected:</span>
+                                <span className="selected-count"> {selectedUsers.length} contact{selectedUsers.length !== 1 ? 's' : ''}</span>
                             </div>
                             
                             <TableContainer className="contacts-table-container">
-                                <Table>
+                                <Table sx={{ backgroundColor: '#e0e1e2', '& th, & td': { backgroundColor: '#e0e1e2' } }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>
@@ -298,6 +302,7 @@ const BroadcastMessage = () => {
                 </div>
 
             <ToastContainer position="top-right" autoClose={3000} />
+            </div>
         </>
     );
 };

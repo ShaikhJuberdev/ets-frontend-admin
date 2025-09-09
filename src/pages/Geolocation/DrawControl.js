@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 
@@ -11,9 +10,61 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
 
   useEffect(() => {
     if (!map) return;
-    
+
     map.addLayer(drawnItems.current);
 
+    const addInitialCircle = (lat, lng) => {
+      const defaultLatLng = { lat, lng };
+      const circle = L.circle(defaultLatLng, {
+        radius: 20000, 
+        color: "red",
+        weight: 2,
+        fillColor: "red",
+        fillOpacity: 0.1,
+      });
+
+      drawnItems.current.addLayer(circle);
+      currentCircle.current = circle;
+
+      
+      map.fitBounds(circle.getBounds());
+
+     
+      onCircleDrawn(defaultLatLng, 15000);
+
+      
+      const handleCircleUpdate = () => {
+        const newCenter = circle.getLatLng();
+        const newRadius = circle.getRadius();
+        onCircleDrawn(newCenter, newRadius);
+        console.log("Circle updated:", newCenter, newRadius);
+      };
+
+      circle.on("edit", handleCircleUpdate);
+      circle.on("drag", handleCircleUpdate);
+      circle.on("resize", handleCircleUpdate);
+
+      // Enable edit handles
+      const editToolbar = new L.EditToolbar.Edit(map, {
+        featureGroup: drawnItems.current,
+      });
+      editToolbar.enable();
+    };
+
+    // ✅ Add initial circle at user location
+    if (!currentCircle.current && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          addInitialCircle(pos.coords.latitude, pos.coords.longitude);
+        },
+        (err) => {
+          console.warn("Geolocation denied or unavailable:", err.message);
+          // No fallback circle → user can draw manually
+        }
+      );
+    }
+
+    // ✅ Add drawing tools
     if (enableDraw) {
       drawControl.current = new L.Control.Draw({
         draw: {
@@ -51,99 +102,89 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
         const center = circle.getLatLng();
         const radius = circle.getRadius();
 
-
-          if (circle.editing) {
-          circle.editing.enable();
-        }
-
-
-        // Add comprehensive event listeners for all types of edits
         const handleCircleUpdate = () => {
           const newCenter = circle.getLatLng();
           const newRadius = circle.getRadius();
           onCircleDrawn(newCenter, newRadius);
-          console.log('Circle updated - center:', newCenter, 'radius:', newRadius);
+          console.log("Circle updated - center:", newCenter, "radius:", newRadius);
         };
 
-        // Listen to multiple events to catch all possible edits
-        circle.on('edit', handleCircleUpdate);
-        circle.on('drag', handleCircleUpdate);
-        circle.on('resize', handleCircleUpdate);
-        
-        // For Leaflet Draw specific events
-        circle.on('editstart', () => console.log('Edit started'));
-        circle.on('editstop', handleCircleUpdate);
+        circle.on("edit", handleCircleUpdate);
+        circle.on("drag", handleCircleUpdate);
+        circle.on("resize", handleCircleUpdate);
 
         currentCircle.current = circle;
         onCircleDrawn(center, radius);
-        console.log('Created - center:', center, 'radius:', radius);
       }
     };
 
-    // Handle editing via draw control
+    // Handle editing
     const onEdited = (e) => {
-      console.log('Edit event triggered');
       e.layers.eachLayer((layer) => {
         if (layer instanceof L.Circle) {
           const center = layer.getLatLng();
           const radius = layer.getRadius();
-          
-          // Re-attach the edit listener after editing
-          layer.off('edit'); // Remove old listener
-          layer.on('edit', () => {
+
+          layer.off("edit");
+          layer.on("edit", () => {
             const newCenter = layer.getLatLng();
             const newRadius = layer.getRadius();
             onCircleDrawn(newCenter, newRadius);
-            console.log('Manual edit after draw edit - center:', newCenter, 'radius:', newRadius);
           });
 
           currentCircle.current = layer;
           onCircleDrawn(center, radius);
-          console.log('Draw control edit - center:', center, 'radius:', radius);
         }
       });
     };
 
-    // Handle deletion of drawn shapes
-    const onDeleted = () => {
-      if (onCleared) {
-        onCleared();
-      }
-    };
+    // // Handle deletion
+   
 
-    // Attach event listeners
+    const onDeleted = (e) => {
+  e.layers.eachLayer((layer) => {
+    drawnItems.current.removeLayer(layer); // ✅ actually remove from map
+  });
+
+  if (onCleared) {
+    onCleared();
+  }
+
+  currentCircle.current = null; // reset so new circle can be drawn
+};
+
+    
+
+    // Attach listeners
     map.on(L.Draw.Event.CREATED, onCreated);
     map.on(L.Draw.Event.EDITED, onEdited);
     map.on(L.Draw.Event.DELETED, onDeleted);
 
     return () => {
-      // Clean up event listeners
       map.off(L.Draw.Event.CREATED, onCreated);
       map.off(L.Draw.Event.EDITED, onEdited);
       map.off(L.Draw.Event.DELETED, onDeleted);
-      
+
       if (drawControl.current) {
         map.removeControl(drawControl.current);
       }
-      
-      // Clean up drawn items
       map.removeLayer(drawnItems.current);
     };
   }, [map, onCircleDrawn, onCleared, enableDraw]);
 
-  // Update tooltip when hasUsers changes
+  // ✅ Tooltip on hasUsers change
   useEffect(() => {
     if (currentCircle.current) {
       if (hasUsers === false) {
-        // Add tooltip for no users found
-        currentCircle.current.bindTooltip("No users found in this area", {
-          permanent: true,
-          direction: 'center',
-          className: 'no-users-tooltip',
-          offset: [0, 0]
-        }).openTooltip();
+        currentCircle.current
+          .bindTooltip("No users found in this area", {
+            permanent: true,
+            direction: "center",
+            className: "no-users-tooltip",
+            offset: [0, 0],
+          })
+          .openTooltip();
       } else {
-        // Remove tooltip if users are found
         currentCircle.current.closeTooltip();
         currentCircle.current.unbindTooltip();
       }
