@@ -18,10 +18,24 @@ const BarChart = () => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          color: "black", // Legend text color
+        },
       },
       title: {
         display: true,
-        
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "black", // X-axis label color
+        },
+      },
+      y: {
+        ticks: {
+          color: "black", // Y-axis label color
+        },
       },
     },
   }

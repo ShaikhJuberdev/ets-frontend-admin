@@ -25,10 +25,28 @@ const RadarChart = () => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          color: "black", // Legend text color
+        },
       },
       title: {
         display: true,
-      
+      },
+    },
+    scales: {
+      r: {
+        angleLines: {
+          color: "#ccc", // radial grid line color (optional tweak)
+        },
+        grid: {
+          color: "#ddd", // circular grid line color (optional tweak)
+        },
+        pointLabels: {
+          color: "black", // Axis labels (Returning Users, Active Users, etc.)
+        },
+        ticks: {
+          color: "black", // Numbers (50, 60, 70, etc.)
+        },
       },
     },
   }
@@ -36,11 +54,11 @@ const RadarChart = () => {
   const data = {
     labels: [
       "Returning Users",
-      "Active Users", 
+      "Active Users",
       "Downloads",
       "Retention",
       "Engagement",
-      "Daily Usage"
+      "Daily Usage",
     ],
     datasets: [
       {

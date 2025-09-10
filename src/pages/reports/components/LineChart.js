@@ -27,19 +27,30 @@ const LineChart = () => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          color: "black", // Legend text color
+        },
       },
       title: {
         display: true,
-        
       },
     },
     scales: {
+      x: {
+        ticks: {
+          color: "black", // X-axis labels
+        },
+      },
       y: {
         beginAtZero: true,
         max: 400,
         title: {
           display: true,
           text: "Message Count",
+          color: "black", // Y-axis title
+        },
+        ticks: {
+          color: "black", // Y-axis labels
         },
       },
     },
@@ -54,12 +65,11 @@ const LineChart = () => {
         borderColor: "#01b9d1",
         backgroundColor: "rgba(60, 76, 207, 0.1)",
         tension: 0,
-        
       },
       {
         label: "Messages Opened",
         data: [120, 100, 140, 180, 160, 150, 170],
-        borderColor:"#ffb750",
+        borderColor: "#ffb750",
         backgroundColor: "rgba(255, 107, 53, 0.1)",
         tension: 0,
       },

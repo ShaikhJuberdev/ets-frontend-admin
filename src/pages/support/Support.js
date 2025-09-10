@@ -163,6 +163,7 @@ const Support = () => {
                                         type="button"
                                         onClick={handleAddCC}
                                         className="support-cc-add-btn"
+                                        style={{backgroundColor:"#e0e1e2"}}
                                     >
                                         <span className="support-cc-plus">
                                             <img
@@ -211,7 +212,7 @@ const Support = () => {
                         </div>
 
                         <div className="support-form-actions">
-                            <button type="button" className="support-cancel-btn" onClick={handleCancel}>
+                            <button type="button" className="support-cancel-btn" onClick={handleCancel} >
                                 Cancel
                             </button>
                             <button type="submit" className="support-submit-btn">
@@ -222,36 +223,36 @@ const Support = () => {
                 </div>
             </div>
 
-         {isModalOpen && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h3 className="modal-title">Add CC Email</h3>
-      <input
-        type="email"
-        value={emailInput}
-        onChange={(e) => setEmailInput(e.target.value)}
-        className="modal-input"
-        placeholder="Enter email address"
-      />
-      <div className="modal-buttons">
-        <button
-          type="button"
-          onClick={handleModalCancel}
-          className="modal-cancel-btn"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={handleModalSubmit}
-          className="modal-add-btn"
-        >
-          Add
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            {isModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3 className="modal-title">Add CC Email</h3>
+                        <input
+                            type="email"
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                            className="modal-input"
+                            placeholder="Enter email address"
+                        />
+                        <div className="modal-buttons">
+                            <button
+                                type="button"
+                                onClick={handleModalCancel}
+                                className="modal-cancel-btn"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleModalSubmit}
+                                className="modal-add-btn"
+                            >
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <ToastContainer position="top-right" autoClose={3000} />
         </>
     );
