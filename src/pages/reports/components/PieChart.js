@@ -17,10 +17,12 @@ const PieChart = () => {
     plugins: {
       legend: {
         position: "bottom",
+        labels: {
+          color: "black", // ✅ Legend text color
+        },
       },
       title: {
         display: true,
-        
       },
     },
   }
@@ -31,9 +33,9 @@ const PieChart = () => {
       {
         data: [40, 35, 25],
         backgroundColor: [
-          "#66b267",
-          "#b4eff7 ", 
-          "#e5e5e5",
+          "#66b267", // green
+          "#b4eff7", // light blue
+          "#e5e5e5", // gray
         ],
         borderColor: "#fff",
         borderWidth: 2,

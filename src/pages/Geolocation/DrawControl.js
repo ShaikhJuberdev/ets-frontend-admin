@@ -59,7 +59,7 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
         },
         (err) => {
           console.warn("Geolocation denied or unavailable:", err.message);
-          // No fallback circle → user can draw manually
+          
         }
       );
     }
@@ -138,19 +138,18 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
       });
     };
 
-    // // Handle deletion
    
 
     const onDeleted = (e) => {
   e.layers.eachLayer((layer) => {
-    drawnItems.current.removeLayer(layer); // ✅ actually remove from map
+    drawnItems.current.removeLayer(layer); 
   });
 
   if (onCleared) {
     onCleared();
   }
 
-  currentCircle.current = null; // reset so new circle can be drawn
+  currentCircle.current = null; 
 };
 
     
@@ -172,7 +171,7 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
     };
   }, [map, onCircleDrawn, onCleared, enableDraw]);
 
-  // ✅ Tooltip on hasUsers change
+  
   useEffect(() => {
     if (currentCircle.current) {
       if (hasUsers === false) {
@@ -181,7 +180,7 @@ export const DrawControl = ({ onCircleDrawn, enableDraw, onCleared, hasUsers }) 
             permanent: true,
             direction: "center",
             className: "no-users-tooltip",
-            offset: [0, 0],
+            offset: [0, 40],
           })
           .openTooltip();
       } else {
